@@ -83,6 +83,44 @@ namespace Lists
             Console.WriteLine();
         }
 
+        public void RemoveElementsFromEnd(int countOfElements)
+        {
+            if (countOfElements > Length)
+            {
+                throw new ArgumentException();
+            }
+
+            Length -= countOfElements;
+        }
+
+        public void RemoveElementsFromBeginning(int countOfElements)
+        {
+            if (countOfElements > Length)
+            {
+                throw new ArgumentException();
+            }
+
+            for (int i = countOfElements; i != 0; i--)
+            {
+                Shift(i, Length, 0);
+                Length--;
+            }
+        }
+
+        public void RemoveElementByIndex(int index, int countOfElements)
+        {
+            if (index + 1 + countOfElements > Length)
+            {
+                throw new ArgumentException();
+            }
+
+            for (int i = index + countOfElements; i != index; i--)
+            {
+                Shift(i, Length, 0);
+                Length--;
+            }
+        }
+
         private void ExpandArrayList()
         {
             int[] tmpArray = new int[(int)(Length * 1.5)];
@@ -108,34 +146,6 @@ namespace Lists
 
         }
 
-        
-        //private void ParallelShift(int endRange, int startRange = 0, int vector = 1)
-        //{
-        //    //if (vector != 1 || vector != 0)
-        //    //{
-        //    //    throw new ArgumentException();
-        //    //}
-
-        //    if (vector == 1)
-        //    {
-        //        if (Length == _array.Length)
-        //        {
-        //            ExpandArrayList();
-        //        }
-
-        //        for (int i = endRange; i >= startRange; i--)
-        //        {
-        //            _array[i + 1] = _array[i];
-        //        }
-        //    }
-        //    else if (vector == 0)
-        //    {
-        //        for (int i = startRange+1; i < endRange; i++)
-        //        {
-        //            _array[i-1] = _array[i];
-        //        }
-        //    }
-        //}
         /// <summary>
         /// 
         /// </summary>
@@ -157,6 +167,8 @@ namespace Lists
                         _array[i-1] = _array[i];
                     }
                     break;
+                default:
+                    throw new ArgumentException();
             }
         }
     }

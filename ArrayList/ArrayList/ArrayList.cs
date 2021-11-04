@@ -209,6 +209,149 @@ namespace Lists
             return max;
         }
 
+        public int GetMinElement()
+        {
+            int min = _array[0];
+
+            for (int i = 1; i < _array.Length; i++)
+            {
+                if (_array[i] < min)
+                {
+                    min = _array[i];
+                }
+            }
+            return min;
+        }
+
+        public int GetIndexOfMin()
+        {
+            int min = _array[0];
+            int minIndex = 0;
+
+            for (int i = 1; i < _array.Length; i++)
+            {
+                if (_array[i] < min)
+                {
+                    min = _array[i];
+                    minIndex = i;
+                }
+            }
+            return minIndex;
+        }
+
+        public int GetIndexOfMax()
+        {
+            int max = _array[0];
+            int macIndex = 0;
+
+            for (int i = 1; i < _array.Length; i++)
+            {
+                if (_array[i] < max)
+                {
+                    max = _array[i];
+                    macIndex = i;
+                }
+            }
+            return macIndex;
+        }
+
+        public void Sort()
+        {
+            for (int i = 0; i < _array.Length; i++)
+            {
+                int indexOfMin = i;
+                for (int j = i + 1; j < _array.Length; j++)
+                {
+                    if (_array[j] < _array[indexOfMin])
+                    {
+                        indexOfMin = j;
+                    }
+                }
+                int tmpElem = _array[i];
+                _array[i] = _array[indexOfMin];
+                _array[indexOfMin] = tmpElem;
+            }
+        }
+
+        public void SortDescending()
+        {
+            for (int i = 0; i < _array.Length; i++)
+            {
+                int indexOfMax = i;
+                for (int j = i + 1; j < _array.Length; j++)
+                {
+                    if (_array[j] > _array[indexOfMax])
+                    {
+                        indexOfMax = j;
+                    }
+                }
+                int tmpElem = _array[i];
+                _array[i] = _array[indexOfMax];
+                _array[indexOfMax] = tmpElem;
+            }
+        }
+
+        public int DeleteFirstMatch(int value)
+        {
+            for (int i = 0; i < Length; i++)
+            {
+                if (_array[i] == value)
+                {
+                    int id = i+1;
+                    Shift(id, Length, 0);
+                    Length--;
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        public int DeleteAllMatch(int value)
+        {
+            int count = 0;
+            for (int i = 0; i < Length; i++)
+            {
+                if (_array[i] == value)
+                {
+                    int id = i + 1;
+                    Shift(id, Length, 0);
+                    Length--;
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        public void AddArrayListToEnd(ArrayList arrayList)
+        {
+            for (int i = 0; i < arrayList.Length;i++)
+            {
+                Add(arrayList[i]);
+            }
+        }
+
+        public void AddArrayListToBeginning(ArrayList arrayList)
+        {
+            for (int i = 0; i < arrayList.Length; i++)
+            {
+                Length++;
+                Shift(i, Length);
+                _array[i] = arrayList[i];
+            }
+        }
+
+        public void AddArrayListByIndex(ArrayList arrayList, int index)
+        {
+
+            for (int i = index; i < arrayList.Length+1; i++)
+            {
+
+                Length++;
+                Shift(i, Length);
+                _array[i] = arrayList[i-index];
+            }
+        }
+
         /// <summary>
         /// paralel shift
         /// </summary>

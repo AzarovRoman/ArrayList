@@ -9,21 +9,17 @@ namespace ConsoleApp
         {
             ArrayList al = new ArrayList();
 
-            al.Add(10);
-            al.Add(20);
-            al.Add(30);
-            al.Add(40);
-            al.Add(50);
-            al.Add(60);
-            al.Add(80);
-            al.Add(110);
-            al.Add(90);
-            al.Add(100);
-            al.WriteToConsole();
+            al.Add(1);
+            al.Add(2);
+            al.Add(3);
 
-            Console.WriteLine(al.GetIndexOfFirstMatch(90));
+            ArrayList al1 = new ArrayList();
 
-            al.Reverse();
+            al1.Add(4);
+            al1.Add(5);
+            al1.Add(6);
+
+            al.AddArrayListByIndex(al1, 1);
             al.WriteToConsole();
         }
     }

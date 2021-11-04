@@ -16,6 +16,22 @@ namespace Lists
             _array = new int[minArrayLength];
         }
 
+        public int this[int index]
+        {
+            get 
+            {
+                if (index < 0 || index > Length)
+                {
+                    throw new IndexOutOfRangeException();
+                }
+                return _array[index];
+            }
+            set
+            {
+                _array[index] = value;
+            }
+        }
+
         public void Add(int value)
         {
             if (Length == _array.Length)

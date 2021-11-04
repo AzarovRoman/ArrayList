@@ -32,7 +32,7 @@ namespace ConsoleApp
 
             al.WriteToConsole();
 
-            Console.WriteLine();
+            Console.WriteLine(al[2]);
 
         }
     }

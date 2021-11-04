@@ -121,6 +121,37 @@ namespace Lists
             }
         }
 
+        public int GetLength() //реально?
+        {
+            return Length;
+        }
+
+        /// <summary>
+        /// paralel shift
+        /// </summary>
+        /// <param name="startRange"></param>
+        /// <param name="vector">must be 1 or 0. 1 is right, 0 is left</param>
+        private void Shift(int startRange, int endRange, int vector=1)
+        {
+            switch (vector)
+            {
+                case 1:
+                    for (int i = endRange; i >= startRange; i--)
+                    {
+                        _array[i+1] = _array[i];
+                    }
+                    break;
+                case 0:
+                    for (int i = startRange; i < endRange; i++)
+                    {
+                        _array[i-1] = _array[i];
+                    }
+                    break;
+                default:
+                    throw new ArgumentException();
+            }
+        }
+
         private void ExpandArrayList()
         {
             int[] tmpArray = new int[(int)(Length * 1.5)];
@@ -146,30 +177,5 @@ namespace Lists
 
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="startRange"></param>
-        /// <param name="vector">must be 1 or 0. 1 is right, 0 is left</param>
-        private void Shift(int startRange, int endRange, int vector=1)
-        {
-            switch (vector)
-            {
-                case 1:
-                    for (int i = endRange; i >= startRange; i--)
-                    {
-                        _array[i+1] = _array[i];
-                    }
-                    break;
-                case 0:
-                    for (int i = startRange; i < endRange; i++)
-                    {
-                        _array[i-1] = _array[i];
-                    }
-                    break;
-                default:
-                    throw new ArgumentException();
-            }
-        }
     }
 }

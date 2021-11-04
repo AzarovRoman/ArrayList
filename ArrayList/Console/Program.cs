@@ -1,4 +1,5 @@
 ﻿using Lists;
+using System;
 
 namespace ConsoleApp
 {
@@ -30,6 +31,8 @@ namespace ConsoleApp
             al.RemoveElementByIndex(1, 3);
 
             al.WriteToConsole();
+
+            Console.WriteLine();
 
         }
     }

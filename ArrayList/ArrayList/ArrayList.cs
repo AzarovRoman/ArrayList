@@ -16,6 +16,31 @@ namespace Lists
             _array = new int[minArrayLength];
         }
 
+        public ArrayList(int element)
+        {
+            Length = 1;
+            _array = new int[minArrayLength];
+            _array[0] = element;
+        }
+
+        public ArrayList(ArrayList arrayList)
+        {
+            Length = arrayList.Length;
+            if (arrayList.Length > minArrayLength)
+            {
+                _array = new int[(int)(arrayList.Length * 1.5)];
+            }
+            else
+            {
+                _array = new int[minArrayLength];
+            }
+
+            for (int i = 0; i < arrayList.Length; i++)
+            {
+                _array[i] = arrayList[i];
+            }
+        }
+
         public int this[int index]
         {
             get 
@@ -24,10 +49,16 @@ namespace Lists
                 {
                     throw new IndexOutOfRangeException();
                 }
+
                 return _array[index];
             }
             set
             {
+                if (index < 0 || index > Length)
+                {
+                    throw new IndexOutOfRangeException();
+                }
+
                 _array[index] = value;
             }
         }
@@ -140,6 +171,42 @@ namespace Lists
         public int GetLength() //реально?
         {
             return Length;
+        }
+
+        public int GetIndexOfFirstMatch(int value)
+        {
+            for (int i = 0; i < Length; i++)
+            {
+                if (_array[i] == value)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        public void Reverse()
+        {
+            for (int i = 0; i < _array.Length / 2; i++)
+            {
+                int tmp = _array[i];
+                _array[i] = _array[_array.Length - i - 1];
+                _array[_array.Length - i - 1] = tmp;
+            }
+        }
+
+        public int GetMaxElement()
+        {
+            int max = _array[0];
+
+            for (int i = 1; i < _array.Length; i++)
+            {
+                if (_array[i] > max)
+                {
+                    max = _array[i];
+                }
+            }
+            return max;
         }
 
         /// <summary>

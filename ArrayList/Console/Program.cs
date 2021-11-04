@@ -16,24 +16,15 @@ namespace ConsoleApp
             al.Add(50);
             al.Add(60);
             al.Add(80);
+            al.Add(110);
             al.Add(90);
             al.Add(100);
-            al.Add(110);
-
-            al.WriteToConsole();
-            al.Insert(3, 35);
             al.WriteToConsole();
 
-            al.RemoveByIndex(2);
+            Console.WriteLine(al.GetIndexOfFirstMatch(90));
 
+            al.Reverse();
             al.WriteToConsole();
-
-            al.RemoveElementByIndex(1, 3);
-
-            al.WriteToConsole();
-
-            Console.WriteLine(al[2]);
-
         }
     }
 }

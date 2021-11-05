@@ -168,11 +168,6 @@ namespace Lists
             }
         }
 
-        public int GetLength() //реально?
-        {
-            return Length;
-        }
-
         public int GetIndexOfFirstMatch(int value)
         {
             for (int i = 0; i < Length; i++)

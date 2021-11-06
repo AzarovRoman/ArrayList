@@ -106,31 +106,45 @@ namespace Lists
 
         public void Insert(int index, int value)
         {
+            if (index >= Length || index < 1)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
             if (Length == _array.Length)
             {
                 ExpandArrayList();
             }
 
-            Shift(index, Length, 1);
+            Shift(index, Length);
 
             _array[index] = value;
         }
 
         public void DeleteLastElement()
         {
-            Length--;
-            ReduceArrayList();
+            if (Length > 0)
+            {
+                Length--;
+                ReduceArrayList();
+            }
         }
 
         public void DeleteFirstElement()
         {
-            Shift(1, Length, 0);
-
-            ReduceArrayList();
+            if (Length > 0)
+            {
+                Shift(1, Length, 0);
+                ReduceArrayList();
+            }
         }
 
         public void DeleteByIndex(int index)
         {
+            if (index >= Length || index < 0)
+            {
+                throw new IndexOutOfRangeException();
+            }
             Shift(++index, Length, 0);
             ReduceArrayList();
         }
@@ -145,7 +159,7 @@ namespace Lists
             Length -= countOfElements;
         }
 
-        public void DeleteElementsFromBeginning(int countOfElements)
+        public void DeleteElementsFromBeginning(int countOfElements = 1)
         {
             if (countOfElements > Length)
             {
@@ -439,7 +453,7 @@ namespace Lists
 
         private void ExpandArrayList(int count = 0)
         {
-            int[] tmpArray = new int[(int)(Length+count * 1.5)];
+            int[] tmpArray = new int[(int)((Length+count) * 1.5)];
             for (int i = 0; i < _array.Length; i++)
             {
                 tmpArray[i] = _array[i];
@@ -461,6 +475,5 @@ namespace Lists
             }
 
         }
-
     }
 }

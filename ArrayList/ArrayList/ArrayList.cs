@@ -80,9 +80,7 @@ namespace Lists
                 ExpandArrayList();
             }
 
-            Shift(0, Length - 1, 1);
-
-            Length++;
+            Shift(0, Length , 1);
             _array[0] = value;
         }
 
@@ -96,41 +94,28 @@ namespace Lists
             Shift(index, Length, 1);
 
             _array[index] = value;
-            Length++;
         }
 
-        public void RemoveLastElement()
+        public void DeleteLastElement()
         {
-            _array[Length-1] = 0;
             Length--;
             ReduceArrayList();
         }
 
-        public void RemoveFirstElement()
+        public void DeleteFirstElement()
         {
             Shift(1, Length, 0);
 
-            Length--;
             ReduceArrayList();
         }
 
-        public void RemoveByIndex(int index)
+        public void DeleteByIndex(int index)
         {
             Shift(++index, Length, 0);
-            Length--;
             ReduceArrayList();
         }
 
-        public void WriteToConsole()
-        {
-            for (int i = 0; i < Length; i++)
-            {
-                Console.Write($"{_array[i]} ");
-            }
-            Console.WriteLine();
-        }
-
-        public void RemoveElementsFromEnd(int countOfElements)
+        public void DeleteElementsFromEnd(int countOfElements)
         {
             if (countOfElements > Length)
             {
@@ -140,21 +125,18 @@ namespace Lists
             Length -= countOfElements;
         }
 
-        public void RemoveElementsFromBeginning(int countOfElements)
+        public void DeleteElementsFromBeginning(int countOfElements)
         {
             if (countOfElements > Length)
             {
                 throw new ArgumentException();
             }
 
-            for (int i = countOfElements; i != 0; i--)
-            {
-                Shift(i, Length, 0);
-                Length--;
-            }
+            Shift(countOfElements, Length, 0, countOfElements);
+            
         }
 
-        public void RemoveElementByIndex(int index, int countOfElements)
+        public void DeleteElementByIndex(int index, int countOfElements)
         {
             if (index + 1 + countOfElements > Length)
             {
@@ -164,7 +146,6 @@ namespace Lists
             for (int i = index + countOfElements; i != index; i--)
             {
                 Shift(i, Length, 0);
-                Length--;
             }
         }
 
@@ -182,11 +163,11 @@ namespace Lists
 
         public void Reverse()
         {
-            for (int i = 0; i < _array.Length / 2; i++)
+            for (int i = 0; i <=Length / 2; i++)
             {
                 int tmp = _array[i];
-                _array[i] = _array[_array.Length - i - 1];
-                _array[_array.Length - i - 1] = tmp;
+                _array[i] = _array[Length - i - 1];
+                _array[Length - i - 1] = tmp;
             }
         }
 
@@ -237,25 +218,25 @@ namespace Lists
         public int GetIndexOfMax()
         {
             int max = _array[0];
-            int macIndex = 0;
+            int maxIndex = 0;
 
             for (int i = 1; i < _array.Length; i++)
             {
-                if (_array[i] < max)
+                if (_array[i] > max)
                 {
                     max = _array[i];
-                    macIndex = i;
+                    maxIndex = i;
                 }
             }
-            return macIndex;
+            return maxIndex;
         }
 
         public void Sort()
         {
-            for (int i = 0; i < _array.Length; i++)
+            for (int i = 0; i < Length; i++)
             {
                 int indexOfMin = i;
-                for (int j = i + 1; j < _array.Length; j++)
+                for (int j = i + 1; j < Length; j++)
                 {
                     if (_array[j] < _array[indexOfMin])
                     {
@@ -270,10 +251,10 @@ namespace Lists
 
         public void SortDescending()
         {
-            for (int i = 0; i < _array.Length; i++)
+            for (int i = 0; i < Length; i++)
             {
                 int indexOfMax = i;
-                for (int j = i + 1; j < _array.Length; j++)
+                for (int j = i + 1; j < Length; j++)
                 {
                     if (_array[j] > _array[indexOfMax])
                     {
@@ -294,7 +275,6 @@ namespace Lists
                 {
                     int id = i+1;
                     Shift(id, Length, 0);
-                    Length--;
                     return i;
                 }
             }
@@ -327,24 +307,54 @@ namespace Lists
 
         public void AddArrayListToBeginning(ArrayList arrayList)
         {
+
+            Shift(0, Length, 1, arrayList.Length);
             for (int i = 0; i < arrayList.Length; i++)
             {
-                Length++;
-                Shift(i, Length);
                 _array[i] = arrayList[i];
             }
         }
 
         public void AddArrayListByIndex(ArrayList arrayList, int index)
         {
+            Shift(index, Length, 1, arrayList.Length);
 
-            for (int i = index; i < arrayList.Length+1; i++)
+            for (int i = index; i <= arrayList.Length + 2; i++)
             {
-
-                Length++;
-                Shift(i, Length);
-                _array[i] = arrayList[i-index];
+                _array[i] = arrayList[i - index];
             }
+        }
+
+        public override bool Equals(object obj)
+        {
+            ArrayList arrayList = (ArrayList)obj;
+
+            if(Length != arrayList.Length)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < Length; i++)
+            {
+                if (arrayList._array[i] != _array[i])
+                {
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+
+        public override string ToString()
+        {
+            string str = "";
+
+            for (int i = 0; i < Length; i++)
+            {
+                str += $"{_array[i]} ";
+            }
+
+            return str;
         }
 
         /// <summary>
@@ -352,20 +362,36 @@ namespace Lists
         /// </summary>
         /// <param name="startRange"></param>
         /// <param name="vector">must be 1 or 0. 1 is right, 0 is left</param>
-        private void Shift(int startRange, int endRange, int vector=1)
+        private void Shift(int startRange, int endRange, int vector = 1, int step = 1)
         {
             switch (vector)
             {
                 case 1:
+                    if (_array.Length > Length+step) //проверяю что хватит длинны подкапотного массива
+                    {
+                        Length += step;
+                    }
+                    else
+                    {
+                        ExpandArrayList(step);
+                        Length += step;
+                    }
+
                     for (int i = endRange; i >= startRange; i--)
                     {
-                        _array[i+1] = _array[i];
+                        _array[i+step] = _array[i];
                     }
                     break;
                 case 0:
+                    while (_array.Length < Length/2) // проверяю что у массива нету "лишьней" длинны
+                    {
+                        ReduceArrayList();
+                    }
+                    Length -= step;
+
                     for (int i = startRange; i < endRange; i++)
                     {
-                        _array[i-1] = _array[i];
+                        _array[i-step] = _array[i];
                     }
                     break;
                 default:
@@ -373,9 +399,9 @@ namespace Lists
             }
         }
 
-        private void ExpandArrayList()
+        private void ExpandArrayList(int count = 0)
         {
-            int[] tmpArray = new int[(int)(Length * 1.5)];
+            int[] tmpArray = new int[(int)(Length+count * 1.5)];
             for (int i = 0; i < _array.Length; i++)
             {
                 tmpArray[i] = _array[i];

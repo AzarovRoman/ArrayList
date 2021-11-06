@@ -6,9 +6,11 @@ namespace Lists
     {
         public int Length { get; private set; } //длинна с точки зрения юзера
 
+
         private const int minArrayLength = 10;
 
         private int[] _array; //подкапотный массив
+
 
         public ArrayList()
         {
@@ -21,6 +23,24 @@ namespace Lists
             Length = 1;
             _array = new int[minArrayLength];
             _array[0] = element;
+        }
+
+        public ArrayList(int[] array)
+        {
+            Length = array.Length;
+            if (array.Length > minArrayLength)
+            {
+                _array = new int[(int)(array.Length * 1.5)];
+            }
+            else
+            {
+                _array = new int[minArrayLength];
+            }
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                _array[i] = array[i];
+            }
         }
 
         public ArrayList(ArrayList arrayList)
@@ -75,12 +95,12 @@ namespace Lists
 
         public void AddToBeginning(int value)
         {
-            if (Length == _array.Length)
+            if (Length+1 == _array.Length)
             {
                 ExpandArrayList();
             }
 
-            Shift(0, Length , 1);
+            Shift(0, Length, 1);
             _array[0] = value;
         }
 
@@ -325,6 +345,22 @@ namespace Lists
             }
         }
 
+        public void RandomCreation(int countOfElements)
+        {
+            Random random = new Random();
+
+            if (Length >= countOfElements)
+            {
+                ExpandArrayList(countOfElements);
+            }
+
+            for (int i = 0; i < countOfElements; i++)
+            {
+                Length++;
+                _array[i] = random.Next(-100, 101);
+            }
+        }
+
         public override bool Equals(object obj)
         {
             ArrayList arrayList = (ArrayList)obj;
@@ -357,6 +393,7 @@ namespace Lists
             return str;
         }
 
+
         /// <summary>
         /// paralel shift
         /// </summary>
@@ -377,11 +414,12 @@ namespace Lists
                         Length += step;
                     }
 
-                    for (int i = endRange; i >= startRange; i--)
+                    for (int i = endRange; i >= startRange; i--) //сдвиг вправо
                     {
                         _array[i+step] = _array[i];
                     }
                     break;
+
                 case 0:
                     while (_array.Length < Length/2) // проверяю что у массива нету "лишьней" длинны
                     {
@@ -389,7 +427,7 @@ namespace Lists
                     }
                     Length -= step;
 
-                    for (int i = startRange; i < endRange; i++)
+                    for (int i = startRange; i < endRange; i++) //
                     {
                         _array[i-step] = _array[i];
                     }

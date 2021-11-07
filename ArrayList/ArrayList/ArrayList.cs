@@ -170,7 +170,7 @@ namespace Lists
             
         }
 
-        public void DeleteElementByIndex(int index, int countOfElements)
+        public void DeleteElementsByIndex(int index, int countOfElements)
         {
             if (index + 1 + countOfElements > Length)
             {
@@ -197,7 +197,7 @@ namespace Lists
 
         public void Reverse()
         {
-            for (int i = 0; i <=Length / 2; i++)
+            for (int i = 0; i < Length / 2; i++)
             {
                 int tmp = _array[i];
                 _array[i] = _array[Length - i - 1];
@@ -207,6 +207,11 @@ namespace Lists
 
         public int GetMaxElement()
         {
+            if (Length == 0)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
             int max = _array[0];
 
             for (int i = 1; i < _array.Length; i++)

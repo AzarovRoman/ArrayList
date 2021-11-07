@@ -7,10 +7,7 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
-            ArrayList al = new ArrayList();
 
-
-            Console.WriteLine(al);
         }
     }
 }

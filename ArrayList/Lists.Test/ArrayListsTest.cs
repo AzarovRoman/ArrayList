@@ -193,5 +193,180 @@ namespace Lists.Test
         }
 
         #endregion
+
+        #region GetMinElementTests
+        [TestCase(new int[] { 1, 2, 3, 18, 4 }, 1)]
+        [TestCase(new int[] { 100, 2, 3, 18, 4 }, 2)]
+        [TestCase(new int[] { 1 }, 1)]
+        public void GetMinElementTest(int[] array, int expected)
+        {
+            ArrayList arrayList = new ArrayList(array);
+            int actual = arrayList.GetMinElement();
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { })]
+        public void GetMinElementTest_WhenLengthIsZero_ShouldThrowsIndexOutOfRangeException(int[] array)
+        {
+            ArrayList actual = new ArrayList(array);
+            Assert.Throws<IndexOutOfRangeException>(() => actual.GetMinElement());
+        }
+
+        #endregion
+
+        #region GetIndexOfMinTests
+        [TestCase(new int[] { 1, 2, 3, 18, 4 }, 0)]
+        [TestCase(new int[] { 100, 2, 3, 18, 4 }, 1)]
+        [TestCase(new int[] { 1 }, 0)]
+        public void GetIndexOfMinTest(int[] array, int expected)
+        {
+            ArrayList arrayList = new ArrayList(array);
+            int actual = arrayList.GetIndexOfMin();
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { })]
+        public void GetIndexOfMinTest_WhenLengthIsZero_ShouldThrowsIndexOutOfRangeException(int[] array)
+        {
+            ArrayList actual = new ArrayList(array);
+            Assert.Throws<IndexOutOfRangeException>(() => actual.GetIndexOfMin());
+        }
+
+        #endregion
+
+        #region GetIndexOfMaxTests
+        [TestCase(new int[] { 1, 2, 3, 18, 4 }, 3)]
+        [TestCase(new int[] { 100, 2, 3, 18, 4 }, 0)]
+        [TestCase(new int[] { 1 }, 0)]
+        public void GetIndexOfMaxTest(int[] array, int expected)
+        {
+            ArrayList arrayList = new ArrayList(array);
+            int actual = arrayList.GetIndexOfMax();
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestCase(new int[] { })]
+        public void GetIndexOfMaxTest_WhenLengthIsZero_ShouldThrowsIndexOutOfRangeException(int[] array)
+        {
+            ArrayList actual = new ArrayList(array);
+            Assert.Throws<IndexOutOfRangeException>(() => actual.GetIndexOfMax());
+        }
+
+        #endregion
+
+        #region SortTests
+        [TestCase(new int[] { 1, 2, 3, 18, 4 }, new int[] { 1, 2, 3, 4, 18})]
+        [TestCase(new int[] { -100, -2, -3, -18, -4 }, new int[] { -100, -18, -4, -3, -2 })]
+        [TestCase(new int[] { 1 }, new int[] { 1 })]
+        [TestCase(new int[] { }, new int[] { })]
+        public void SortTest(int[] array, int[] expectedArray)
+        {
+            ArrayList actual = new ArrayList(array);
+            ArrayList expected = new ArrayList(expectedArray);
+
+            actual.Sort();
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        #endregion
+
+        #region SortDescendingTests
+        [TestCase(new int[] { 1, 2, 3, 18, 4 }, new int[] { 18, 4, 3, 2, 1 })]
+        [TestCase(new int[] { -100, -2, -3, -18, -4 }, new int[] { -2, -3, -4, -18, -100 })]
+        [TestCase(new int[] { -100, -2, -3, 7, -18, -4, }, new int[] { 7, -2, -3, -4, -18, -100})]
+        [TestCase(new int[] { 1 }, new int[] { 1 })]
+        [TestCase(new int[] { }, new int[] { })]
+        public void SortDescendingTest(int[] array, int[] expectedArray)
+        {
+            ArrayList actual = new ArrayList(array);
+            ArrayList expected = new ArrayList(expectedArray);
+
+            actual.SortDescending();
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        #endregion
+
+        #region DeleteFirstMatchTests
+        [TestCase(new int[] { 1, 2, 3, 18, 4 }, 3, 18)]
+        [TestCase(new int[] { 100, 2, 3, 18, 4 }, -1, 5)]
+        [TestCase(new int[] { }, -1, 123)]
+        public void DeleteFirstMatchTest(int[] array, int expected, int value)
+        {
+            ArrayList arrayList = new ArrayList(array);
+            int actual = arrayList.DeleteFirstMatch(value);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        #endregion
+
+        #region DeleteAllMatchTests
+        [TestCase(new int[] { 1, 2, 3, 18, 4 }, 1, 18)]
+        [TestCase(new int[] { 100, 2, 3, 18, 4 }, 0, 5)]
+        [TestCase(new int[] { }, 0, 123)]
+        public void DeleteAllMatchTest(int[] array, int expected, int value)
+        {
+            ArrayList arrayList = new ArrayList(array);
+            int actual = arrayList.DeleteAllMatch(value);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        #endregion
+
+        #region AddArrayListToEndTests
+        [TestCase(new int[] { }, new int[] { 1, 2, 3}, new int[] { 1, 2, 3})]
+        [TestCase(new int[] { }, new int[] { }, new int[] { })]
+        [TestCase(new int[] { -1, -2, -3}, new int[] { 1, 2, 3}, new int[] { -1, -2, -3, 1, 2, 3})]
+        public void AddArrayListToEndTest(int[] arrayList, int[] array, int[] expectedArray)
+        {
+            ArrayList actual = new ArrayList(arrayList); // исходник
+            ArrayList testArray = new ArrayList(array); // то что добавляем
+            ArrayList expected = new ArrayList(expectedArray); // как должен выглядеть результат
+
+            actual.AddArrayListToEnd(testArray);
+
+            Assert.AreEqual(expected, actual);
+        }
+        #endregion
+
+        #region AddArrayListToBeginningTests
+        [TestCase(new int[] { }, new int[] { 1, 2, 3 }, new int[] { 1, 2, 3 })]
+        [TestCase(new int[] { }, new int[] { }, new int[] { })]
+        [TestCase(new int[] { -1, -2, -3 }, new int[] { 1, 2, 3 }, new int[] { 1, 2, 3, -1, -2, -3})]
+        public void AddArrayListToBeginningTest(int[] arrayList, int[] array, int[] expectedArray)
+        {
+            ArrayList actual = new ArrayList(arrayList); // исходник
+            ArrayList testArray = new ArrayList(array); // то что добавляем
+            ArrayList expected = new ArrayList(expectedArray); // как должен выглядеть результат
+
+            actual.AddArrayListToBeginning(testArray);
+
+            Assert.AreEqual(expected, actual);
+        }
+        #endregion
+
+        #region AddArrayListByIndexTests
+        //[TestCase(new int[] { }, new int[] { 1, 2, 3 }, new int[] { 1, 2, 3 }, 0)]
+        [TestCase(new int[] { 1, 2, 3}, new int[] { }, new int[] { 1, 2, 3 }, 0)]
+        [TestCase(new int[] { -1, -2, -3 }, new int[] { 1, 2, 3 }, new int[] { 1, 2, -1, -2, -3, 3 }, 1)]
+        public void AddArrayListByIndexTest(int[] arrayList, int[] array, int[] expectedArray, int index)
+        {
+            ArrayList actual = new ArrayList(arrayList); // исходник
+            ArrayList testArray = new ArrayList(array); // то что добавляем
+            ArrayList expected = new ArrayList(expectedArray); // как должен выглядеть результат
+
+            actual.AddArrayListByIndex(testArray, index);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        #endregion
     }
 }

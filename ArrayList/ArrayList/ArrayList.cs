@@ -226,9 +226,14 @@ namespace Lists
 
         public int GetMinElement()
         {
+            if (Length == 0)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
             int min = _array[0];
 
-            for (int i = 1; i < _array.Length; i++)
+            for (int i = 1; i < Length; i++)
             {
                 if (_array[i] < min)
                 {
@@ -240,10 +245,15 @@ namespace Lists
 
         public int GetIndexOfMin()
         {
+            if (Length == 0)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
             int min = _array[0];
             int minIndex = 0;
 
-            for (int i = 1; i < _array.Length; i++)
+            for (int i = 1; i < Length; i++)
             {
                 if (_array[i] < min)
                 {
@@ -256,6 +266,11 @@ namespace Lists
 
         public int GetIndexOfMax()
         {
+            if (Length == 0)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
             int max = _array[0];
             int maxIndex = 0;
 
@@ -346,7 +361,6 @@ namespace Lists
 
         public void AddArrayListToBeginning(ArrayList arrayList)
         {
-
             Shift(0, Length, 1, arrayList.Length);
             for (int i = 0; i < arrayList.Length; i++)
             {
@@ -358,7 +372,7 @@ namespace Lists
         {
             Shift(index, Length, 1, arrayList.Length);
 
-            for (int i = index; i <= arrayList.Length + 2; i++)
+            for (int i = index; i <= arrayList.Length; i++)
             {
                 _array[i] = arrayList[i - index];
             }
@@ -423,15 +437,12 @@ namespace Lists
             switch (vector)
             {
                 case 1:
-                    if (_array.Length > Length+step) //проверяю что хватит длинны подкапотного массива
-                    {
-                        Length += step;
-                    }
-                    else
+                    if (_array.Length < Length+step) //проверяю что хватит длинны подкапотного массива
                     {
                         ExpandArrayList(step);
-                        Length += step;
                     }
+                    Length += step;
+                    
 
                     for (int i = endRange; i >= startRange; i--) //сдвиг вправо
                     {
@@ -446,7 +457,7 @@ namespace Lists
                     }
                     Length -= step;
 
-                    for (int i = startRange; i < endRange; i++) //
+                    for (int i = startRange; i < endRange; i++)
                     {
                         _array[i-step] = _array[i];
                     }
@@ -458,7 +469,7 @@ namespace Lists
 
         private void ExpandArrayList(int count = 0)
         {
-            int[] tmpArray = new int[(int)((Length+count) * 1.5)];
+            int[] tmpArray = new int[(int)((Length*1.5) + count)];
             for (int i = 0; i < _array.Length; i++)
             {
                 tmpArray[i] = _array[i];

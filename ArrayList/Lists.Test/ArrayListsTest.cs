@@ -20,16 +20,16 @@ namespace Lists.Test
         }
         #endregion
 
-        #region AddToBeginningTests
+        #region AddToStartTests
         [TestCase(1, new int[] { 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5 })]
         [TestCase(1, new int[] { 2, 3, 4, 5, 2, 3, 4, 5, 9, 10 }, new int[] { 1, 2, 3, 4, 5, 2, 3, 4, 5, 9, 10 })]
         [TestCase(1, new int[] { }, new int[] { 1 })]
-        public void AddToBeginningTest(int value, int[] array, int[] expectedArray)
+        public void AddToStartTest(int value, int[] array, int[] expectedArray)
         {
             ArrayList actual = new ArrayList(array);
             ArrayList expected = new ArrayList(expectedArray);
 
-            actual.AddToBeginning(value);
+            actual.AddToStart(value);
             Assert.AreEqual(expected, actual);
         }
         #endregion
@@ -309,6 +309,7 @@ namespace Lists.Test
         #region DeleteAllMatchTests
         [TestCase(new int[] { 1, 2, 3, 18, 4 }, 1, 18)]
         [TestCase(new int[] { 100, 2, 3, 18, 4 }, 0, 5)]
+        [TestCase(new int[] { 1, 2, 2, 2, 1, 2, 2, 2, 2}, 7, 2)]
         [TestCase(new int[] { }, 0, 123)]
         public void DeleteAllMatchTest(int[] array, int expected, int value)
         {

@@ -93,9 +93,9 @@ namespace Lists
             Length++;
         }
 
-        public void AddToBeginning(int value)
+        public void AddToStart(int value)
         {
-            if (Length+1 == _array.Length)
+            if (Length == _array.Length)
             {
                 ExpandArrayList();
             }
@@ -149,7 +149,7 @@ namespace Lists
             ReduceArrayList();
         }
 
-        public void DeleteElementsFromEnd(int countOfElements)
+        public void DeleteLastElements(int countOfElements)
         {
             if (countOfElements > Length)
             {
@@ -338,16 +338,16 @@ namespace Lists
         public int DeleteAllMatch(int value)
         {
             int count = 0;
-            for (int i = 0; i < Length; i++)
+            for (int i = Length; i > 0; i--)
             {
                 if (_array[i] == value)
                 {
                     int id = i + 1;
                     Shift(id, Length, 0);
-                    Length--;
                     count++;
                 }
             }
+            Length -= count;
             return count;
         }
 
@@ -370,11 +370,15 @@ namespace Lists
 
         public void AddArrayListByIndex(ArrayList arrayList, int index)
         {
-            Shift(index, Length, 1, arrayList.Length);
-
-            for (int i = index; i <= arrayList.Length; i++)
+            if (Length + arrayList.Length >= _array.Length)
             {
-                _array[i] = arrayList[i - index];
+                ExpandArrayList(arrayList.Length);
+            }
+
+            for (int i = 0; i < arrayList.Length; i++)
+            {
+                Shift(i, Length, 1, 1);
+                _array[i + index] = arrayList[i];
             }
         }
 

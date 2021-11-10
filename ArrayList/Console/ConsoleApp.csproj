@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ArrayList\Lists.csproj" />
+    <ProjectReference Include="..\LinkList\LinkList.csproj" />
   </ItemGroup>
 
 </Project>

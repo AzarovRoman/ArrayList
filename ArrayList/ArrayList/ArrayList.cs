@@ -65,7 +65,7 @@ namespace Lists
         {
             get 
             {
-                if (index < 0 || index > Length)
+                if (index < 0 || index >= Length)
                 {
                     throw new IndexOutOfRangeException();
                 }
@@ -74,7 +74,7 @@ namespace Lists
             }
             set
             {
-                if (index < 0 || index > Length)
+                if (index < 0 || index >= Length)
                 {
                     throw new IndexOutOfRangeException();
                 }
@@ -375,10 +375,10 @@ namespace Lists
                 ExpandArrayList(arrayList.Length);
             }
 
-            for (int i = 0; i < arrayList.Length; i++)
+            Shift(index, Length, 1, arrayList.Length);
+            for (int i = index; i < arrayList.Length; i++)
             {
-                Shift(i, Length, 1, 1);
-                _array[i + index] = arrayList[i];
+                _array[i] = arrayList[i-index];
             }
         }
 

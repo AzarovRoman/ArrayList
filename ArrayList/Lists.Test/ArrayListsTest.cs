@@ -356,7 +356,7 @@ namespace Lists.Test
         #region AddArrayListByIndexTests
         //[TestCase(new int[] { }, new int[] { 1, 2, 3 }, new int[] { 1, 2, 3 }, 0)]
         [TestCase(new int[] { 1, 2, 3}, new int[] { }, new int[] { 1, 2, 3 }, 0)]
-        [TestCase(new int[] { -1, -2, -3 }, new int[] { 1, 2, 3 }, new int[] { 1, 2, -1, -2, -3, 3 }, 1)]
+        [TestCase(new int[] { -1, -2, -3 }, new int[] { 1, 2, 3 }, new int[] { -1, 1, 2, 3, -2, -3}, 1)]
         public void AddArrayListByIndexTest(int[] arrayList, int[] array, int[] expectedArray, int index)
         {
             ArrayList actual = new ArrayList(arrayList); // исходник

@@ -8,8 +8,10 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
-            LinkedList a = new LinkedList(new int[] { 1, 2, 3, 4, 5});
-            Console.WriteLine(a.GetLength());
+            ArrayList a = new ArrayList(new int[] { });
+
+            a.Add(3);
+            Console.WriteLine(a);
         }
     }
 }

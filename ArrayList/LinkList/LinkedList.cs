@@ -112,9 +112,9 @@ namespace LinkList
             }
         }
 
-        public void Insert(int index, int value)
+        public void Add(int index, int value)
         {
-            if (GetLength() < index)
+            if (index + 1 > GetLength())
             {
                 throw new IndexOutOfRangeException();
             }
@@ -122,8 +122,117 @@ namespace LinkList
             Node tmp = _root;
             for (int counter = 0; counter < index; counter++)
             {
-                
+                if (counter == index - 1)
+                {
+                    Node tmpNode = tmp;
+                    tmp = tmp.Next;
+                    tmpNode.Next = new Node(value);
+                    tmpNode.Next.Next = tmp;
+                }
+                tmp = tmp.Next;
             }
+        }
+
+        public void DropLast()
+        {
+            if (_root == null)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            Node tmp = _root;
+
+            if (tmp.Next == null)
+            {
+                _root = null;
+                tmp = null;
+            }
+
+            while (tmp != null)
+            {
+                if (tmp.Next.Next == null)
+                {
+                    tmp.Next = null;
+                }
+                tmp = tmp.Next;
+            }
+        }
+
+        public void DropFirst()
+        {
+            if (_root == null)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            _root = _root.Next;
+        }
+
+        public void Drop(int index)
+        {
+            if (_root == null || index > GetLength())
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            Node tmp = _root;
+
+            if (index == 0)
+            {
+                _root = _root.Next;
+            }
+
+            for (int counter = 0; counter < index; counter++)
+            {
+                if (counter + 1 == index)
+                {
+                    tmp.Next = null;
+                }
+                tmp = tmp.Next;
+            }
+        }
+
+        public void DropLastElements(int count)
+        {
+            int len = GetLength();
+
+            if (_root == null || count > len)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            if(_root.Next == null)
+            {
+                _root = null;
+            }
+            if (count > 0 && len == 1)
+            {
+                _root = null;
+            }
+
+            if (count != 0)
+            {
+                Node tmp = _root;
+                int resLength = len - count;
+
+                for (int i = 1; i < resLength; i++)
+                {
+                    tmp = tmp.Next;
+                }
+                tmp.Next = null; 
+            }
+            
+        }
+
+        public void DropFirstElements(int count)
+        {
+            Node tmp = _root;
+
+            for (int i = 0; i < count-1; i++)
+            {
+                tmp = tmp.Next;
+            }
+            _root = tmp.Next;
         }
 
         public override bool Equals(object obj)

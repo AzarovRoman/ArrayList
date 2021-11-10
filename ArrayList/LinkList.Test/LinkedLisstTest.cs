@@ -1,12 +1,13 @@
 using NUnit.Framework;
 using LinkList;
+using System;
 
 namespace LinkList.Test
 {
     public class Tests
     {
         #region GetLengthTests
-        [TestCase(new int[] { 1, 2, 3, 4, 5}, 5)]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, 5)]
         [TestCase(new int[] { }, 0)]
         public void GetLengthTest(int[] array, int expected)
         {
@@ -44,17 +45,24 @@ namespace LinkList.Test
 
         #endregion
 
-        //#region AddByIndexTests
-        //[TestCase(1, 2, new int[] { 1, 2, 3, 4 }, new int[] { 1, 2, 1, 3, 4 })]
-        //public void AddByIndextTest(int value, int index, int[] array, int[] expectedArray)
-        //{
-        //    LinkedList actual = new LinkedList(array);
-        //    LinkedList expected = new LinkedList(expectedArray);
+        #region InsertTests
+        [TestCase(1, 2, new int[] { 1, 2, 3, 4 }, new int[] { 1, 2, 1, 3, 4 })]
+        public void InsertTest(int value, int index, int[] array, int[] expectedArray)
+        {
+            LinkedList actual = new LinkedList(array);
+            LinkedList expected = new LinkedList(expectedArray);
 
-        //    actual.AddByIndex(index);
-        //    Assert.AreEqual(expected, actual);
-        //}
+            actual.Insert(index, value);
+            Assert.AreEqual(expected, actual);
+        }
 
-        //#endregion
+        [TestCase(new int[] { 1, 2, 3 })]
+        public void InsertTest_WhenIndexMoreThanLength_ShouldThrowsIndexOutOfRangeException(int[] array, int index, int value)
+        {
+            LinkedList actual = new LinkedList(array);
+
+            Assert.Throws<IndexOutOfRangeException>(() => actual.Insert(index, value));
+        }
+        #endregion
     }
 }

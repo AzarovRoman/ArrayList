@@ -354,8 +354,6 @@ namespace Lists.Test
         #endregion
 
         #region AddArrayListByIndexTests
-        //[TestCase(new int[] { }, new int[] { 1, 2, 3 }, new int[] { 1, 2, 3 }, 0)]
-        [TestCase(new int[] { 1, 2, 3}, new int[] { }, new int[] { 1, 2, 3 }, 0)]
         [TestCase(new int[] { -1, -2, -3 }, new int[] { 1, 2, 3 }, new int[] { -1, 1, 2, 3, -2, -3}, 1)]
         public void AddArrayListByIndexTest(int[] arrayList, int[] array, int[] expectedArray, int index)
         {
@@ -368,6 +366,17 @@ namespace Lists.Test
             Assert.AreEqual(expected, actual);
         }
 
+
+        [TestCase(new int[] { }, new int[] { }, 1)]
+        [TestCase(new int[] { 1, 2, 3 }, new int[] { }, 1)]
+        [TestCase(new int[] { }, new int[] { 1, 2, 3}, 1)]
+        public void AddArrayListByIndexTest_WhenOneOfTheArraysIsEmpty_ShouldThrowsIndexOutOfRangeException(int[] array, int[] exArray, int index)
+        {
+            ArrayList actual = new ArrayList(array);
+            ArrayList expected = new ArrayList(exArray);
+
+            Assert.Throws<IndexOutOfRangeException>(()=> actual.AddArrayListByIndex(expected, index));
+        }
         #endregion
     }
 }

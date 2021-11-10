@@ -370,6 +370,11 @@ namespace Lists
 
         public void AddArrayListByIndex(ArrayList arrayList, int index)
         {
+            if (Length == 0 || arrayList.Length == 0)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
             if (Length + arrayList.Length >= _array.Length)
             {
                 ExpandArrayList(arrayList.Length);

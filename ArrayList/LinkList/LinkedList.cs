@@ -22,17 +22,19 @@ namespace LinkList
 
         public LinkedList(int[] array)
         {
-
-            Node node = new Node(array[0]);
-            _root = node;
-            for (int i = 1; i < array.Length; i++)
-            {
-                node.Next = new Node(array[i]);
-                node = node.Next;
-            }
             if (array.Length == 0)
             {
                 _root = null;
+            }
+            else
+            {
+                Node node = new Node(array[0]);
+                _root = node;
+                for (int i = 1; i < array.Length; i++)
+                {
+                    node.Next = new Node(array[i]);
+                    node = node.Next;
+                }
             }
         }
 
@@ -69,7 +71,7 @@ namespace LinkList
             int count = 0;
             if (tmp == null)
             {
-                return 0;
+                return count;
             }
             while (tmp != null)
             {
@@ -110,32 +112,46 @@ namespace LinkList
             }
         }
 
-        public void AddByIndex(int index, int value)
+        public void Insert(int index, int value)
         {
+            if (GetLength() < index)
+            {
+                throw new IndexOutOfRangeException();
+            }
 
+            Node tmp = _root;
+            for (int counter = 0; counter < index; counter++)
+            {
+                
+            }
         }
 
         public override bool Equals(object obj)
         {
             LinkedList linkedList = (LinkedList)obj;
 
-            while (linkedList._root.Next != null)
+            Node tmpRoot = _root;
+            Node tmp = linkedList._root;
+
+            if (tmpRoot == null && tmp == null)
             {
-                if (_root.Next == null && linkedList._root.Next != null)
+                return true;
+            }
+
+            while (tmpRoot != null || tmp != null)
+            {
+                if (tmpRoot.Value != tmp.Value)
                 {
                     return false;
                 }
-                if (_root.Next != null && linkedList._root.Next == null)
-                {
-                    return false;
-                }
-                if (linkedList._root.Value != _root.Value)
+                if ((tmpRoot.Next == null && tmp.Next != null)
+                    || (tmpRoot.Next != null && tmp.Next == null))
                 {
                     return false;
                 }
 
-                linkedList._root = linkedList._root.Next;
-                _root = _root.Next;
+                tmpRoot = tmpRoot.Next;
+                tmp = tmp.Next;
             }
             return true;
         }

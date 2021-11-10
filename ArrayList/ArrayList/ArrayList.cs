@@ -376,7 +376,7 @@ namespace Lists
             }
 
             Shift(index, Length, 1, arrayList.Length);
-            for (int i = index; i < arrayList.Length; i++)
+            for (int i = index; i <= arrayList.Length; i++)
             {
                 _array[i] = arrayList[i-index];
             }

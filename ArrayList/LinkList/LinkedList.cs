@@ -67,7 +67,7 @@ namespace LinkList
         {
             Node tmp = _root;
             int count = 0;
-            if (_root == null)
+            if (tmp == null)
             {
                 return 0;
             }

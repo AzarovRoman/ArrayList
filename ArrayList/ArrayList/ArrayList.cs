@@ -37,10 +37,13 @@ namespace Lists
                 _array = new int[minArrayLength];
             }
 
+            //_array = array;
+
             for (int i = 0; i < array.Length; i++)
             {
                 _array[i] = array[i];
             }
+
         }
 
         public ArrayList(ArrayList arrayList)

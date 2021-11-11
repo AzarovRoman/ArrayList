@@ -61,7 +61,20 @@ namespace LinkList
             }
             set
             {
+                int len = GetLength();
 
+                if (index + 1 > len && index < 0)
+                {
+                    throw new IndexOutOfRangeException();
+                }
+
+                Node tmp = _root;
+
+                for (int i = 0; i < index; i++)
+                {
+                    tmp = tmp.Next;
+                }
+                tmp.Value = value;
             }
         }
 
@@ -196,21 +209,20 @@ namespace LinkList
         {
             int len = GetLength();
 
-            if (_root == null || count > len)
+            if (_root == null)
             {
                 throw new IndexOutOfRangeException();
             }
 
-            if(_root.Next == null)
+            if (count == 0)
+            {
+                return;
+            }
+            if (count >= len)
             {
                 _root = null;
             }
-            if (count > 0 && len == 1)
-            {
-                _root = null;
-            }
-
-            if (count != 0)
+            else if (count < len )
             {
                 Node tmp = _root;
                 int resLength = len - count;
@@ -226,13 +238,328 @@ namespace LinkList
 
         public void DropFirstElements(int count)
         {
+
+            if (_root == null)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            int len = GetLength();
+
+            if (count > len)
+            {
+                _root = null;
+            }
+            if (count == 0)
+            {
+                return;
+            }
+            else
+            {
+                Node tmp = _root;
+
+                for (int i = 0; i < count-1; i++)
+                {
+                    tmp = tmp.Next;
+                }
+                _root = tmp.Next;
+            }
+
+        }
+
+        public void DropElementsByIndex(int index, int count)
+        {
+            if (_root == null)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            int len = GetLength();
+            if (index + count + 1 < len && index > 0)
+            {
+                Node tmp = _root;
+                Node tmpNode = _root;
+                for (int i = 0; i < index + count; i++)
+                {
+                    if(i == index - 1)
+                    {
+                        tmpNode = tmp;
+                    }
+                    tmp = tmp.Next;
+                }
+                tmpNode.Next = tmp;
+            }
+            else if (index == 0)
+            {
+                Node tmp = _root;
+                for (int i = 0; i < count; i++)
+                {
+                    tmp = tmp.Next;
+                }
+                _root = tmp;
+            }
+            else if (index + count + 1 == len)
+            {
+                Node tmp = _root;
+                for (int i = 0; i < index; i++)
+                {
+                    tmp = tmp.Next;
+                }
+                tmp.Next = null;
+            }
+        }
+
+        public int GetFirstIndexByValue(int value)
+        {
             Node tmp = _root;
 
-            for (int i = 0; i < count-1; i++)
+            for (int i = 0; tmp != null; i++)
+            {
+                if (tmp.Value == value)
+                {
+                    return i;
+                }
+                tmp = tmp.Next;
+            }
+            return -1;
+        }
+
+        public void Reverse()//разобраться с этим
+        {
+            Node oldRoot = _root;
+            Node crnt;
+            while (oldRoot.Next != null)
+            {
+                crnt = oldRoot.Next;
+                oldRoot.Next = crnt.Next;
+                crnt.Next = _root;
+                _root = crnt;
+            }
+        }
+
+        public int GetMax()
+        {
+            if (_root != null)
+            {
+                int max = _root.Value;
+                Node tmp = _root;
+
+                while (tmp != null)
+                {
+                    if(tmp.Value > max)
+                    {
+                        max = tmp.Value;
+                    }
+                    tmp = tmp.Next;
+                }
+
+                return max;
+            }
+            else
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+        }
+
+        public int GetMin()
+        {
+            if (_root != null)
+            {
+                int min = _root.Value;
+                Node tmp = _root;
+
+                while (tmp != null)
+                {
+                    if (tmp.Value < min)
+                    {
+                        min = tmp.Value;
+                    }
+                    tmp = tmp.Next;
+                }
+
+                return min;
+            }
+            else
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+        }
+
+        public int GetIndexOfMin()
+        {
+            if (_root != null)
+            {
+                int max = _root.Value;
+                int index = 0;
+                int counter = 0;
+                Node tmp = _root;
+
+                while (tmp != null)
+                {
+                    if (tmp.Value < max)
+                    {
+                        max = tmp.Value;
+                        index = counter;
+                    }
+                    tmp = tmp.Next;
+                    counter++;
+                }
+
+                return index;
+            }
+            else
+            {
+                throw new IndexOutOfRangeException();
+            }
+        }
+
+        public int GetIndexOfMax()
+        {
+            if (_root != null)
+            {
+                int min = _root.Value;
+                int index = 0;
+                int counter = 0;
+                Node tmp = _root;
+
+                while (tmp != null)
+                {
+                    if (tmp.Value > min)
+                    {
+                        min = tmp.Value;
+                        index = counter;
+                    }
+                    tmp = tmp.Next;
+                    counter++;
+                }
+
+                return index;
+            }
+            else
+            {
+                throw new IndexOutOfRangeException();
+            }
+        }
+
+        public int DropFirstEqual(int value)
+        {
+            int index = 0;
+
+            if (_root != null)
+            {
+                Node tmp = _root;
+                while (tmp != null)
+                {
+                    if (tmp.Value == value)
+                    {
+                        return index;
+                    }
+                    index++;
+                    tmp = tmp.Next;
+                }
+            }
+            return -1;
+        }
+
+        public int DropAllEquals(int value)
+        {
+            int count = 0;
+
+            if (_root != null)
+            {
+                Node tmp = _root;
+                while (tmp != null)
+                {
+                    while (tmp.Value == value)
+                    {
+                        if (tmp.Next == null)
+                        {
+                            _root = null;
+                            count++;
+                            return count;
+                        }
+                        tmp = tmp.Next;
+                        count++;
+                    }
+
+                    if (tmp.Next != null)
+                    {
+                        if (tmp.Next.Value == value || tmp.Value == value)
+                        {
+                            count++;
+                            if (tmp.Next.Next != null)
+                            {
+                                tmp.Next = tmp.Next.Next;
+                            }
+                            else
+                            {
+                                tmp.Next = null;
+                            }
+                        }
+                    }
+                    tmp = tmp.Next;
+                }
+            }
+            return count;
+        }
+
+        public void AddFirstLinkedList(LinkedList list) // переделать по умному (оно не работает)
+        {
+            Node tmp = _root;
+            Node tmpNode = _root;
+            while (tmpNode.Next != null)
+            {
+                tmpNode = tmpNode.Next;
+            }
+            _root = list._root;
+            tmpNode.Next = tmp;
+        }
+
+        public void AddLinkedList(LinkedList list)
+        {
+            if (_root != null)
+            {
+                Node tmp = _root;
+                while (tmp.Next != null)
+                {
+                    tmp = tmp.Next;
+                }
+                tmp.Next = list._root;
+            }
+            else
+            {
+                _root = list._root;
+            }
+        }
+
+        public void AddLinkedListByIndex(LinkedList list, int index) // Время 2:34. Один тест проходит, остальное - потом
+        {
+            int len = GetLength();
+
+            if (index > len - 1)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            Node startList = list._root;
+            Node endList = list._root;
+            while (endList.Next != null)
+            {
+                endList = endList.Next;
+            }
+            Node tmp = _root;
+
+            for (int i = 0; i < index-1; i++)
             {
                 tmp = tmp.Next;
             }
-            _root = tmp.Next;
+
+            Node tmpContinue = tmp.Next;
+            tmp.Next = startList;
+            endList.Next = tmpContinue;
+
         }
 
         public override bool Equals(object obj)

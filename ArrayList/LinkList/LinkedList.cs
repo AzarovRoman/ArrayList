@@ -199,7 +199,7 @@ namespace LinkList
             {
                 if (counter + 1 == index)
                 {
-                    tmp.Next = null;
+                    tmp.Next = tmp.Next.Next;
                 }
                 tmp = tmp.Next;
             }
@@ -443,6 +443,56 @@ namespace LinkList
             }
         }
 
+        public void Sort() // Да, оно работает три миллиарда лет
+        {
+            if (_root != null)
+            {
+                LinkedList sortRoot = new LinkedList();
+                int len = GetLength();
+                for (int i = 0; i < len; i++)
+                {
+                    if (_root.Next != null)
+                    {
+                        int min = GetMin();
+
+                        sortRoot.Add(min);
+                        Drop(GetFirstIndexByValue(min));
+                    }
+                    else
+                    {
+                        sortRoot.Add(_root.Value);
+                    }
+                }
+
+                _root = sortRoot._root;
+            }
+        }
+
+        public void SortDesc() // Да, оно работает три миллиарда лет
+        {
+            if (_root != null)
+            {
+                LinkedList sortRoot = new LinkedList();
+                int len = GetLength();
+                for (int i = 0; i < len; i++)
+                {
+                    if (_root.Next != null)
+                    {
+                        int max = GetMax();
+
+                        sortRoot.Add(max);
+                        Drop(GetFirstIndexByValue(max));
+                    }
+                    else
+                    {
+                        sortRoot.Add(_root.Value);
+                    }
+                }
+
+                _root = sortRoot._root;
+            }
+        }
+
         public int DropFirstEqual(int value)
         {
             int index = 0;
@@ -505,16 +555,18 @@ namespace LinkList
             return count;
         }
 
-        public void AddFirstLinkedList(LinkedList list) // переделать по умному (оно не работает)
-        {
-            Node tmp = _root;
-            Node tmpNode = _root;
-            while (tmpNode.Next != null)
+        public void AddFirstLinkedList(LinkedList list) 
+        {  
+            if (list._root != null)
             {
-                tmpNode = tmpNode.Next;
+                Node tmpList = list._root;
+                while (tmpList.Next != null)
+                {
+                    tmpList = tmpList.Next;
+                }
+                tmpList.Next = _root;
+                _root = list._root;
             }
-            _root = list._root;
-            tmpNode.Next = tmp;
         }
 
         public void AddLinkedList(LinkedList list)
@@ -534,7 +586,7 @@ namespace LinkList
             }
         }
 
-        public void AddLinkedListByIndex(LinkedList list, int index) // Время 2:34. Один тест проходит, остальное - потом
+        public void AddLinkedListByIndex(LinkedList list, int index)
         {
             int len = GetLength();
 
@@ -543,22 +595,29 @@ namespace LinkList
                 throw new IndexOutOfRangeException();
             }
 
-            Node startList = list._root;
-            Node endList = list._root;
-            while (endList.Next != null)
+            if (_root == null)
             {
-                endList = endList.Next;
+                _root = list._root;
             }
-            Node tmp = _root;
-
-            for (int i = 0; i < index-1; i++)
+            else if (list._root != null && _root != null)
             {
-                tmp = tmp.Next;
-            }
+                Node startList = list._root;
+                Node endList = list._root;
+                while (endList.Next != null)
+                {
+                    endList = endList.Next;
+                }
+                Node tmp = _root;
 
-            Node tmpContinue = tmp.Next;
-            tmp.Next = startList;
-            endList.Next = tmpContinue;
+                for (int i = 0; i < index - 1; i++)
+                {
+                    tmp = tmp.Next;
+                }
+
+                Node tmpContinue = tmp.Next;
+                tmp.Next = startList;
+                endList.Next = tmpContinue;
+            }
 
         }
 

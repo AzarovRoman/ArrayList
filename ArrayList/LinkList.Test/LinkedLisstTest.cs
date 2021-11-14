@@ -111,6 +111,7 @@ namespace LinkList.Test
         #region DropTests
         [TestCase(new int[] { 1, 2, 3, 4 }, new int[] { 2, 3, 4 }, 0)]
         [TestCase(new int[] { 1 }, new int[] { }, 0)]
+        [TestCase(new int[] { 1, 1, 1, 1 }, new int[] { 1, 1, 1}, 2)]
         public void DropTest(int[] array, int[] expectedArray, int index)
         {
             LinkedList actual = new LinkedList(array);
@@ -295,6 +296,38 @@ namespace LinkList.Test
         }
         #endregion
 
+        #region SortTests
+        [TestCase(new int[] { 2, 2, 8, 9, 1, 3, 9, 0, 5}, new int[] { 0, 1, 2, 2, 3, 5, 8, 9, 9})]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 1, 2, 3, 4, 5 })]
+        [TestCase(new int[] { 1, 1, 1}, new int[] { 1, 1, 1 })]
+        [TestCase(new int[] { 1 }, new int[] { 1 })]
+        public void SortTest(int[] array, int[] expectdArray)
+        {
+            LinkedList actual = new LinkedList(array);
+            LinkedList expected = new LinkedList(expectdArray);
+            actual.Sort();
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        #endregion
+
+        #region  
+        [TestCase(new int[] { 2, 2, 8, 9, 1, 3, 9, 0, 5 }, new int[] { 9, 9, 8, 5, 3, 2, 2, 1, 0 })]
+        [TestCase(new int[] { 1, 2, 3, 4, 5 }, new int[] { 5, 4, 3, 2, 1 })]
+        [TestCase(new int[] { 1, 1, 1 }, new int[] { 1, 1, 1 })]
+        [TestCase(new int[] { 1 }, new int[] { 1 })]
+        public void SortDescTest(int[] array, int[] expectdArray)
+        {
+            LinkedList actual = new LinkedList(array);
+            LinkedList expected = new LinkedList(expectdArray);
+            actual.SortDesc();
+
+            Assert.AreEqual(expected, actual);
+        }
+
+#endregion
+
         #region DropFirstEqualTests
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7 }, 6, 5)]
         [TestCase(new int[] { 1, 2, 3, 8, 5, 6, 0 }, 3, 2)]
@@ -316,18 +349,24 @@ namespace LinkList.Test
         [TestCase(new int[] { 2, 2, 2, 1, 1, 1, 1 }, 10, 0)]
         [TestCase(new int[] { 2, 2, 2, 1, 1, 1, 1 }, 1, 4)]
         [TestCase(new int[] { -10000 }, -10000, 1)]
-        public void DropAllEqualsTest(int[] array, int value, int expected)
+        [TestCase(new int[] { 1, 1, 1, 1, 2 }, 2, 1)]
+        public void DropAllEqualsTest(int[] array,  int value, int expected) // int[] expectedList,
         {
             LinkedList list = new LinkedList(array);
+            //LinkedList newList = new LinkedList(expectedList);
             int actual = list.DropAllEquals(value);
 
             Assert.AreEqual(expected, actual);
+            //Assert.AreEqual(newList, list);
         }
 
         #endregion
 
         #region AddFirstLinkedListTests
         [TestCase(new int[] { 1, 2, 3, 4}, new int[] { -2, -1, 0}, new int[] { -2, -1, 0, 1, 2, 3, 4 })]
+        [TestCase(new int[] { }, new int[] { }, new int[] { })]
+        [TestCase(new int[] { }, new int[] { -2, -1, 0 }, new int[] { -2, -1, 0 })]
+        [TestCase(new int[] { -2, -1, 0 }, new int[] { }, new int[] { -2, -1, 0 })]
         public void AddFirstLinkedListTest(int[] array, int[] sArray, int[] expectedArr )
         {
             LinkedList actual = new LinkedList(array); // тот в который добавляем
@@ -358,7 +397,6 @@ namespace LinkList.Test
 
         #region AddLinkedListByIndexTests
         [TestCase(new int[] { -2, -1, 0 }, new int[] { 1, 2, 3, 4 }, new int[] { -2, 1, 2, 3, 4, - 1, 0 }, 1)]
-        [TestCase(new int[] { }, new int[] { 1, 2, 3, 4 }, new int[] { 1, 2, 3, 4 }, 0)]
         [TestCase(new int[] { 1, 2, 3, 4 }, new int[] { }, new int[] { 1, 2, 3, 4 }, 2)]
         public void AddLinkedListByIndexTest(int[] array, int[] sArray, int[] expectedArr, int index)
         {
@@ -370,6 +408,15 @@ namespace LinkList.Test
             Assert.AreEqual(expected, actual);
         }
 
-        #endregion 
+        [TestCase(new int[] { }, new int[] { 1, 2, 3, 4 }, 0)]
+        [TestCase(new int[] { -2, -1, 0 }, new int[] { 1, 2, 3, 4 }, 100)]
+        public void AddLinkedListByIndex_WhenRootIsNull_ShouldThrowIndexOutOfRangeException(int[] array, int[] sArray, int index)
+        {
+            LinkedList actual = new LinkedList(array); // тот в который добавляем
+            LinkedList list = new LinkedList(sArray); // тот КОТОРЫЙ добавляем
+
+            Assert.Throws<IndexOutOfRangeException>(()=> actual.AddLinkedListByIndex(list, index));
+        }
+        #endregion
     }
 }

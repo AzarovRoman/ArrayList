@@ -113,16 +113,9 @@ namespace LinkList
 
         public void AddToStart(int value)
         {
-            if (_root != null)
-            {
-                Node tmp = _root;
-                _root = new Node(value);
-                _root.Next = tmp;
-            }
-            else
-            {
-                _root = new Node(value);
-            }
+            Node tmp = _root;
+            _root = new Node(value);
+            _root.Next = tmp;
         }
 
         public void Add(int index, int value)
@@ -264,7 +257,6 @@ namespace LinkList
                 }
                 _root = tmp.Next;
             }
-
         }
 
         public void DropElementsByIndex(int index, int count)
@@ -443,29 +435,9 @@ namespace LinkList
             }
         }
 
-        public void Sort() // Да, оно работает три миллиарда лет
+        public void Sort()
         {
-            if (_root != null)
-            {
-                LinkedList sortRoot = new LinkedList();
-                int len = GetLength();
-                for (int i = 0; i < len; i++)
-                {
-                    if (_root.Next != null)
-                    {
-                        int min = GetMin();
 
-                        sortRoot.Add(min);
-                        Drop(GetFirstIndexByValue(min));
-                    }
-                    else
-                    {
-                        sortRoot.Add(_root.Value);
-                    }
-                }
-
-                _root = sortRoot._root;
-            }
         }
 
         public void SortDesc() // Да, оно работает три миллиарда лет

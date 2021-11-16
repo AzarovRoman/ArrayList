@@ -1,6 +1,7 @@
 ﻿using Lists;
 using System;
 using LinkList;
+using DoubleLinkedList;
 
 namespace ConsoleApp
 {

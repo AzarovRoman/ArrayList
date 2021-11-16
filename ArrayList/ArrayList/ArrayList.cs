@@ -341,7 +341,7 @@ namespace Lists
         public int DeleteAllMatch(int value)
         {
             int count = 0;
-            for (int i = Length; i > 0; i--)
+            for (int i = Length; i >= 0; i--)
             {
                 if (_array[i] == value)
                 {
@@ -349,6 +349,7 @@ namespace Lists
                     Shift(id, Length, 0);
                     count++;
                 }
+         
             }
             Length -= count;
             return count;

@@ -6,12 +6,17 @@ using System.Threading.Tasks;
 
 namespace DoubleLinkedList
 {
-    internal class Node
+    public class Node
     {
         public int Value { get; set; }
         public Node Next { get; set; }
         public Node Prev { get; set; }
         
+        public Node()
+        {
+            Next = null;
+            Prev = null;
+        }
         public Node(int value)
         {
             Value = value;
@@ -22,6 +27,16 @@ namespace DoubleLinkedList
         public override string ToString()
         {
             return $"{Value} ";
+        }
+
+        public override bool Equals(object obj)
+        {
+            Node node = (Node)obj;
+            if (Value == node.Value)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

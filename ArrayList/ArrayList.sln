@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinkList", "LinkList\LinkLi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinkList.Test", "LinkList.Test\LinkList.Test.csproj", "{32B4A0E4-9F70-4E0C-AD5F-E6CC4EF7FA42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoubleLinkedList", "DoubleLinkedList\DoubleLinkedList.csproj", "{363464F5-1B2B-4A02-B5DE-B416B935FEBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoubleLinkedList", "DoubleLinkedList\DoubleLinkedList.csproj", "{363464F5-1B2B-4A02-B5DE-B416B935FEBF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoubleLinkedList.Test", "DoubleLinkedList.Test\DoubleLinkedList.Test.csproj", "{B27CE9BE-8805-4B98-AE0E-F8AA9BBA9834}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{363464F5-1B2B-4A02-B5DE-B416B935FEBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{363464F5-1B2B-4A02-B5DE-B416B935FEBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{363464F5-1B2B-4A02-B5DE-B416B935FEBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B27CE9BE-8805-4B98-AE0E-F8AA9BBA9834}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B27CE9BE-8805-4B98-AE0E-F8AA9BBA9834}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B27CE9BE-8805-4B98-AE0E-F8AA9BBA9834}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B27CE9BE-8805-4B98-AE0E-F8AA9BBA9834}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

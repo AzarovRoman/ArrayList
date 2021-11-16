@@ -311,6 +311,7 @@ namespace Lists.Test
         [TestCase(new int[] { 100, 2, 3, 18, 4 }, 0, 5)]
         [TestCase(new int[] { 1, 2, 2, 2, 1, 2, 2, 2, 2}, 7, 2)]
         [TestCase(new int[] { }, 0, 123)]
+        [TestCase(new int[] { 1, 2, 3, 3, 4}, 1, 1)]
         public void DeleteAllMatchTest(int[] array, int expected, int value)
         {
             ArrayList arrayList = new ArrayList(array);

@@ -46,6 +46,28 @@ namespace DoubleLinkedList
             }
         }
 
+        public int this[int index]
+        {
+            get 
+            {
+                if (index > Length || index < 0)
+                {
+                    throw new IndexOutOfRangeException();
+                }
+                Node res = GetNodeByIndex(index);
+                return res.Value;
+            }
+            set 
+            {
+                if (index > Length || index < 0)
+                {
+                    throw new IndexOutOfRangeException();
+                }
+                Node res = GetNodeByIndex(index);
+                res.Value = value;
+            }
+        }
+
         public void Add(int value)
         {
             if (_root == null)
@@ -171,6 +193,23 @@ namespace DoubleLinkedList
             }
         }
 
+        public void Drop(Node node)
+        {
+            if (node.Next == null)
+            {
+                DropLast();
+            }
+            else if (node.Prev == null)
+            {
+                DropFirst();
+            }
+            else
+            {
+                node.Prev.Next = node.Next;
+                node.Next.Prev = node.Prev;
+            }
+        }
+
         public void DropLast(int count)
         {
             if (count > Length)
@@ -195,6 +234,258 @@ namespace DoubleLinkedList
                     }
                 }
             }
+        }
+
+        public void DropFirst(int count)
+        {
+            if (count > Length)
+            {
+                throw new ArgumentException();
+            }
+            for (int i = 0; i < count; i++)
+            {
+                DropFirst();
+            }
+        }
+
+        public void DropElements(int index, int count)
+        {
+            if (index + count > Length)
+            {
+                throw new ArgumentException();
+            }
+            if (index + count != Length - 1)
+            {
+                for (int i = index; i < index + count; i++)
+                {
+                    Drop(index);
+                }
+            }
+            else 
+            {
+                for (int i = index;i <= Length; i++)
+                {
+                    DropLast();
+                }
+            }
+        }
+
+        public int GetIndex(int value)
+        {
+            Node tmp = _root;
+            for (int i = 0; i < Length;i++)
+            {
+                if (tmp.Value == value)
+                {
+                    return i;
+                }
+                tmp = tmp.Next;
+            }
+            return -1;
+        }
+
+        public void Reverse()
+        {
+            DoubleLinked newList = new DoubleLinked(); // не получилось без временного листа :(
+            for (int i = 0; i < Length; i++)
+            {
+                newList.Add(_tail.Value);
+                _tail = _tail.Prev;
+            }
+            _root = newList._root;
+            _tail = newList._tail;
+        }
+
+        public int GetMax()
+        {
+            if (_root != null)
+            {
+                int max = _root.Value;
+                Node tmp = _root;
+
+                while (tmp != null)
+                {
+                    if (tmp.Value > max)
+                    {
+                        max = tmp.Value;
+                    }
+                    tmp = tmp.Next;
+                }
+
+                return max;
+            }
+            else
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+        }
+
+        public int GetMin()
+        {
+            if (_root != null)
+            {
+                int min = _root.Value;
+                Node tmp = _root;
+
+                while (tmp != null)
+                {
+                    if (tmp.Value < min)
+                    {
+                        min = tmp.Value;
+                    }
+                    tmp = tmp.Next;
+                }
+
+                return min;
+            }
+            else
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+        }
+
+        public int GetIndexOfMin()
+        {
+            if (_root != null)
+            {
+                int max = _root.Value;
+                int index = 0;
+                int counter = 0;
+                Node tmp = _root;
+
+                while (tmp != null)
+                {
+                    if (tmp.Value < max)
+                    {
+                        max = tmp.Value;
+                        index = counter;
+                    }
+                    tmp = tmp.Next;
+                    counter++;
+                }
+
+                return index;
+            }
+            else
+            {
+                throw new IndexOutOfRangeException();
+            }
+        }
+
+        public int GetIndexOfMax()
+        {
+            if (_root != null)
+            {
+                int min = _root.Value;
+                int index = 0;
+                int counter = 0;
+                Node tmp = _root;
+
+                while (tmp != null)
+                {
+                    if (tmp.Value > min)
+                    {
+                        min = tmp.Value;
+                        index = counter;
+                    }
+                    tmp = tmp.Next;
+                    counter++;
+                }
+
+                return index;
+            }
+            else
+            {
+                throw new IndexOutOfRangeException();
+            }
+        }
+
+        public void Sort()
+        {
+            if (Length < 2)
+            {
+                return;
+            }
+            else
+            {
+                Node tmp = _root;
+                for (int i = 0; i < Length; i++)
+                {
+                    Node tTmp = tmp;
+                    for (int j = i; j < Length; j++)
+                    {
+                        if (tTmp.Value > tTmp.Next.Value)
+                        {
+                            int swapValue = tTmp.Value;
+                            tTmp.Value = tTmp.Next.Value;
+                            tTmp.Next.Value = swapValue;
+                        }
+                        tTmp = tTmp.Next;
+                    }
+                    tTmp = tTmp.Next;
+                }
+            }
+        }
+
+        public int DropFirstEqual(int value)
+        {
+            Node tmp = _root;
+            for (int i = 0; i < Length; i++)
+            {
+                if (tmp.Value == value)
+                {
+                    Drop(tmp);
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        public int DropEquals(int value)
+        {
+            int res = 0;
+            Node tmp = _root;
+            while (tmp != null)
+            {
+                if (tmp.Value == value)
+                {
+                    res++;
+                    Drop(tmp);
+                }
+            }
+            return res;
+        }
+
+        public void AddElements(DoubleLinked list)
+        {
+            _tail.Next = list._root;
+            _tail = list._tail;
+        }
+
+        public void AddFirstElements(DoubleLinked list)
+        {
+            list._tail.Next = _root;
+            _root.Prev = list._tail;
+
+            _root = list._root;
+            _tail = list._tail;
+        }
+
+        public void AddElements(int index, DoubleLinked list)
+        {
+            if (index >= Length || index < 0)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            Node tmp = GetNodeByIndex(index);
+
+            tmp.Prev.Next = list._root;
+            list._root.Prev = tmp.Prev;
+            list._tail.Next = tmp;
+            tmp.Prev = list._tail;
         }
 
         public Node GetNodeByIndex(int index)
@@ -227,16 +518,17 @@ namespace DoubleLinkedList
 
         public override bool Equals(object obj)
         {
-            DoubleLinked linkedList = (DoubleLinked)obj;
+            DoubleLinked DoubleLinked = (DoubleLinked)obj;
+            
             Node tmpRoot = _root;
-            Node tmp = linkedList._root;
+            Node tmp = DoubleLinked._root;
 
             if (tmpRoot == null && tmp == null)
             {
                 return true;
             }
 
-            while (tmpRoot != null || tmp != null)
+            while (tmpRoot != null && tmp != null)
             {
                 if (tmpRoot.Value != tmp.Value)
                 {

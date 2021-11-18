@@ -8,7 +8,17 @@ namespace DoubleLinkedList
 {
     public class Node
     {
-        public int Value { get; set; }
+        public int Value 
+        {
+            get 
+            {
+                return Value;
+            } 
+            set
+            {
+                Value = value;
+            } 
+        }
         public Node Next { get; set; }
         public Node Prev { get; set; }
         
